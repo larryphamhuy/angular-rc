@@ -18,28 +18,31 @@ gulp.task('compass', function() {
         }))
         .pipe(gulp.dest('assets/temp'));
 });
+/* Mixed */
+var ext_replace = require('gulp-ext-replace');
 
 /* CSS */
+//var postcss = require('gulp-postcss');
 var sourcemaps = require('gulp-sourcemaps');
-var autoprefixer = require('gulp-autoprefixer');
-var sass = require('gulp-sass');
-var cssClean = require('gulp-clean-css');
+//var autoprefixer = require('autoprefixer');
+//var precss = require('precss');
+//var cssnano = require('cssnano');
 
 /* JS & TS */
+var jsuglify = require('gulp-uglify');
 var typescript = require('gulp-typescript');
+
+/* Images */
+var imagemin = require('gulp-imagemin');
 
 var tsProject = typescript.createProject('tsconfig.json');
 
 /*gulp.task('build-css', function () {
     return gulp.src(assetsDev + 'scss/!*.scss')
         .pipe(sourcemaps.init())
-        .pipe(sass({}).on('error', sass.logError))
+        .pipe(postcss([precss, autoprefixer, cssnano]))
         .pipe(sourcemaps.write())
-        .pipe(autoprefixer({
-            browsers: ['last 3 versions'],
-            cascade: false
-        }))
-        .pipe(cssClean({compatibility: 'ie8'}))
+        .pipe(ext_replace('.css'))
         .pipe(gulp.dest(assetsProd + 'css/'));
 });*/
 
@@ -52,28 +55,30 @@ gulp.task('build-ts', function () {
         .pipe(gulp.dest(appProd));
 });
 
-gulp.task('bundle-ts', ['build-ts'], function() {
-    var path = require("path");
-    var Builder = require('systemjs-builder');
+gulp.task('build-img', function () {
+    return gulp.src(assetsDev + 'images/**/*')
+        .pipe(imagemin({
+            progressive: true
+        }))
+        .pipe(gulp.dest(assetsProd + 'images/'));
+});
 
-// optional constructor options
-// sets the baseURL and loads the configuration file
-    var builder = new Builder('', 'systemjs.config.js');
+gulp.task('build-html', function () {
+    return gulp.src(appDev + '**/*.html')
+        .pipe(gulp.dest(appProd));
+});
 
-    builder
-        .buildStatic('app/boot.js', 'app/bundle.js', { minify: true, sourceMaps: true})
-        .then(function() {
-            console.log('Build complete');
-        })
-        .catch(function(err) {
-            console.log('Build error');
-            console.log(err);
-        });
+gulp.task('build-font', function () {
+    return gulp.src(assetsDev + 'fonts/**/*')
+        .pipe(gulp.dest(assetsProd + 'fonts/'));
 });
 
 gulp.task('watch', function () {
     gulp.watch(appDev + '**/*.ts', ['build-ts']);
     //gulp.watch(assetsDev + 'scss/**/*.scss', ['build-css']);
+    gulp.watch(assetsDev + 'images/*', ['build-img']);
+    gulp.watch(assetsDev + 'fonts/*', ['build-font']);
+    gulp.watch(appDev + '**/*.html', ['build-html']);
 });
 
-gulp.task('default', ['watch', 'build-ts', 'bundle-ts']);
+gulp.task('default', ['watch', 'build-ts', 'build-html', 'build-img', 'build-font']);

@@ -8,13 +8,13 @@ import {HomeComponent} from "./home/home.component";
     selector: 'my-app',
     directives: [ROUTER_DIRECTIVES],
     template: `
-        <div class="container">
-            <h1>Welcome to Demo</h1>
-            <span>There are features implemented on Angular 2:</span>
-            <ul>
-                <li><a [routerLink]="['Home']">Home</a></li>
-                <li><a [routerLink]="['Drag Drop']">Drag-and-Drop</a></li>
-            </ul>
+        <div class="container">            
+            <nav class="navbar navbar-pill">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item"><a [routerLink]="['Home']">Home</a></li>
+                    <li class="nav-item"><a [routerLink]="['Drag Drop']">Drag-and-Drop</a></li>
+                </ul>
+            </nav>
         </div>
         <div class="container-fluid">
             <router-outlet></router-outlet>

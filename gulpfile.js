@@ -46,13 +46,44 @@ var tsProject = typescript.createProject('tsconfig.json');
         .pipe(gulp.dest(assetsProd + 'css/'));
 });*/
 
-gulp.task('build-ts', function () {
-    return gulp.src(appDev + '**/*.ts')
+/*gulp.task('build-ts', function () {
+    return gulp.src(appDev + '**!/!*.ts')
         .pipe(sourcemaps.init())
         .pipe(typescript(tsProject))
         .pipe(sourcemaps.write())
         //.pipe(jsuglify())
         .pipe(gulp.dest(appProd));
+});*/
+
+gulp.task('build-ts', function () {
+    var typescript = require('gulp-typescript');
+    var tscConfig = require('./tsconfig.json');
+
+    var tsResult = gulp
+        .src(appDev + '**/*.ts')
+        .pipe(typescript(tscConfig.compilerOptions));
+
+    return tsResult.js.pipe(gulp.dest(appProd));
+});
+
+
+gulp.task('bundle-ts', ['build-ts'], function() {
+    var path = require("path");
+    var Builder = require('systemjs-builder');
+
+// optional constructor options
+// sets the baseURL and loads the configuration file
+    var builder = new Builder('', 'systemjs.config.js');
+
+    builder
+        .buildStatic('app/boot.js', 'app/bundle.js', { minify: true, sourceMaps: true})
+        .then(function() {
+            console.log('Build complete');
+        })
+        .catch(function(err) {
+            console.log('Build error');
+            console.log(err);
+        });
 });
 
 gulp.task('build-img', function () {

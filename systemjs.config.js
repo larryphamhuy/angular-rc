@@ -2,15 +2,23 @@
 
     // map tells the System loader where to look for things
     var map = {
-        'app':                        'app', // 'dist',
+        'app':                       'app', // 'dist',
         'rxjs':                       'node_modules/rxjs',
-        '@angular':                   'node_modules/@angular'
+        //'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
+        '@angular':                   'node_modules/@angular',
+        //'ng2-toasty':                 'node_modules/ng2-toasty',
+        'ng2-dnd':                    'node_modules/ng2-dnd'
+        //'ng2-slim-loading-bar':       'node_modules/ng2-slim-loading-bar'
     };
 
     // packages tells the System loader how to load when no filename and/or no extension
     var packages = {
-        'app':                        { main: 'boot.js',  defaultExtension: 'js' },
+        'app':                       { main: 'boot.js',  defaultExtension: 'js' },
         'rxjs':                       { defaultExtension: 'js' },
+        //'ng2-toasty':                 { defaultExtension: 'js' },
+        'ng2-dnd':                    { defaultExtension: 'js' }
+        //'ng2-slim-loading-bar':       { defaultExtension: 'js' },
+        //'angular2-in-memory-web-api': { defaultExtension: 'js' },
     };
 
     var packageNames = [

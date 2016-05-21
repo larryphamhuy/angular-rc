@@ -1,9 +1,13 @@
 {
   "name": "new-wms",
   "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/larryphamhuy/angular-rc.git"
+  },
+  "description": "Angular2 RC Kickoff",
   "scripts": {
     "lite": "lite-server",
-    "postinstall": "typings install",
     "gulp": "gulp",
     "start": "concurrent \"npm run gulp\" \"npm run lite\" ",
     "typings": "typings"
@@ -17,6 +21,7 @@
     "@angular/platform-browser": "2.0.0-rc.1",
     "@angular/platform-browser-dynamic": "2.0.0-rc.1",
     "@angular/router": "2.0.0-rc.1",
+    "@angular/router-deprecated": "^2.0.0-rc.1",
     "@angular/upgrade": "2.0.0-rc.1",
     "systemjs": "0.19.27",
     "es6-shim": "^0.35.0",
